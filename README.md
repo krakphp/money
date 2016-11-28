@@ -4,53 +4,78 @@ Simple money manipulation library which uses bcmath to manipulate money values a
 
 ## Install
 
-```
-compose require krak/money
-```
+Install via composer at `krak/money`
 
 ## Usage
 
 ```php
 <?php
 
-use function Krak\Money\money_sum,
-    Krak\Money\money_diff,
-    Krak\Money\money_prod,
-    Krak\Money\money_quot,
-    Krak\Money\money_cmp;
+use Krak\Money;
 
-var_dump(money_cmp('6', money_sum('1.00', '2', '3.0')) === 0);
-// bool(true)
-
-var_dump(money_cmp('1.00', money_diff('8', '3', '4')) === 0);
-// bool(true)
+$calc = Money\calc($precision = 2);
+$res = $calc->add('1.00', '2.00');
+$res = $calc->mul($res, 2);
 ```
 
 ## API
 
+### calc($precision = 2)
+
+Returns a cached instance of the BCMathCalculator. Set the precision to higher if you need to do any multiplications or divisions
+with the money that might require extra precision.
+
+### preciseCalc()
+
+Returns a cached instance of the FloatCalculator. Use this calculator if you have to do any intense money calculations like calculate compounding interest where you need a LOT of precision. Once done, you should then use the `money\f` to format the resulting money as proper money.
+
+### f($money)
+
+Format the money by rounding it to two decimal places.
+
+### interface Calculator
+
+```php
+<?php
+
+interface Calculator {
+    public function add($a, $b);
+    public function sub($a, $b);
+    public function mul($a, $b);
+    public function div($a, $b);
+    public function cmp($a, $b);
+}
 ```
-string money_diff(...$args)
-string money_sum(...$args)
-string money_prod(...$args)
-string money_quot(...$args)
-string money_tax_rate($total, $tax)
-string money_tax($total, $rate)
-int money_cmp($m1, $m2)
 
+These methods are fairly self explanatory, the `cmp` method will return 0 if `$a` and `$b` are equal, > 0 if `$a` is > `$b` and < 0 else.
+
+### abstract class AbstractCalculator
+
+```php
+<?php
+
+abstract class AbstractCalculator implements Calculator {
+    public function sum(...$args);
+    public function diff(...$args);
+    public function quot(...$args);
+    public function prod(...$args);
+    public function max(...$args);
+    public function min(...$args);
+
+    abstract public function add($a, $b);
+    abstract public function sub($a, $b);
+    abstract public function mul($a, $b);
+    abstract public function div($a, $b);
+    abstract public function cmp($a, $b);
+}
 ```
 
-`diff -> difference`, `prod -> product`, `quot -> quotient`, `cmp -> compare`
+Any calculator should extend this class instead of directly implementing the `Calculator` interface so that it can have these extra methods.
 
-`money_diff` subtracts each of the values from left to right
+Each method simply will find the sum, difference, quotient, product, max, or min of the set of args. They delegate the actual calculations to the abstract functions.
 
-`money_sum` sums all of the values together
+## Tests
 
-`money_prod` multiplies all of the values together
-
-`money_quot` divides all of the values together
-
-`money_cmp` returns a comparison of the two money strings using `bccmp`
-
-`money_tax_rate` calculates out the effective tax rate between a total and tax amount
-
-`money_tax` calculates the tax amount from a total and tax rate
+```
+make test
+```

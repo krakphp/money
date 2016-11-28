@@ -8,11 +8,14 @@
             "email": "rj@bighead.net"
         }
     ],
-    "require": {
-        "nikic/iter": "^1.3"
-    },
     "autoload": {
+        "psr-4": {
+            "Krak\\Money\\": "src"
+        },
         "files": ["src/money.php"]
+    },
+    "require": {
+        "php": ">=5.6"
     },
     "require-dev": {
         "peridot-php/peridot": "^1.18"

@@ -2,45 +2,32 @@
 
 namespace Krak\Money;
 
-use iter;
+/** perform precise calculations for most money type calculations */
+function calc($precision = 2) {
+    static $cache;
 
-function _head($data) {
-    foreach ($data as $val) {
-        return $val;
+    if (!$cache) {
+        $cache = [];
     }
+    if (!isset($cache[$precision])) {
+        $cache[$precision] = new BCMathCalculator($precision);
+    }
+
+    return $cache[$precision];
 }
 
-function money_op($bc, ...$args) {
-    $val = iter\reduce(function($acc, $val) use ($bc) {
-        return $bc($acc, $val, 4);
-    }, iter\slice($args, 1), _head($args));
+/** if you're doing any calculations regarding interest, you'll need to use floating
+    point to get proper results */
+function preciseCalc() {
+    static $calc;
 
-    return round($val, 2);
-}
+    if (!$calc) {
+        $calc = new FloatCalculator();
+    }
 
-function money_cmp($m1, $m2) {
-    return bccomp($m1, $m2, 2);
-}
-function money_sum(...$args) {
-    return money_op('bcadd', ...$args);
-}
-function money_diff(...$args) {
-    return money_op('bcsub', ...$args);
-}
-function money_prod(...$args) {
-    return money_op('bcmul', ...$args);
-}
-/* money_quotient */
-function money_quot(...$args) {
-    return money_op('bcdiv', ...$args);
+    return $calc;
 }
 
-/** calculate the tax rate from tax and the total */
-function money_tax_rate($total, $tax) {
-    return round(bcdiv($tax, $total, 6), 4);
-}
-
-/** calculate the tax from the total and rate */
-function money_tax($total, $rate) {
-   return round(money_prod($total, $rate), 2); 
+function f($money) {
+    return round($money, 2);
 }
