@@ -58,6 +58,30 @@ abstract class AbstractCalculator implements Calculator
             return $this->cmp($acc, $val) < 0 ? $acc : $val;
         });
     }
+    /** returns true if $a < $b */
+    public function lt($a, $b) {
+        return $this->cmp($a, $b) < 0;
+    }
+    /** returns true if $a <= $b */
+    public function lte($a, $b) {
+        return $this->cmp($a, $b) <= 0;
+    }
+    /** returns true if $a > $b */
+    public function gt($a, $b) {
+        return $this->cmp($a, $b) > 0;
+    }
+    /** returns true if $a >= $b */
+    public function gte($a, $b) {
+        return $this->cmp($a, $b) >= 0;
+    }
+    /** returns true if $a == $b */
+    public function eq($a, $b) {
+        return $this->cmp($a, $b) == 0;
+    }
+    /** returns true if $a != $b */
+    public function neq($a, $b) {
+        return $this->cmp($a, $b) != 0;
+    }
 
     abstract public function add($a, $b);
     abstract public function sub($a, $b);

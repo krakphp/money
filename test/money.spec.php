@@ -87,5 +87,35 @@ describe('Money', function() {
                 assert(money\f($this->calc->min(4, 2, 3)) == 2.00);
             });
         });
+        describe('->lt', function() {
+            it('true if $a < $b', function() {
+                assert($this->calc->lt(1, 2) && !$this->calc->lt(2, 2));
+            });
+        });
+        describe('->lte', function() {
+            it('true if $a <= $b', function() {
+                assert($this->calc->lte(1, 2) && $this->calc->lte(2, 2));
+            });
+        });
+        describe('->gt', function() {
+            it('true if $a > $b', function() {
+                assert($this->calc->gt(2, 1) && !$this->calc->gt(2, 2));
+            });
+        });
+        describe('->gte', function() {
+            it('true if $a >= $b', function() {
+                assert($this->calc->gte(2, 1) && $this->calc->gte(2, 2));
+            });
+        });
+        describe('->eq', function() {
+            it('true if $a == $b', function() {
+                assert($this->calc->eq(2, 2.00) && !$this->calc->eq(2, 2.01));
+            });
+        });
+        describe('->neq', function() {
+            it('true if $a != $b', function() {
+                assert(!$this->calc->neq(2, 2.00) && $this->calc->neq(2, 2.01));
+            });
+        });
     });
 });

@@ -59,8 +59,22 @@ abstract class AbstractCalculator implements Calculator {
     public function diff(...$args);
     public function quot(...$args);
     public function prod(...$args);
+    /** returns the max value of the set */
     public function max(...$args);
+    /** returns the min value of the set */
     public function min(...$args);
+    /** returns true if $a < $b */
+    public function lt($a, $b);
+    /** returns true if $a <= $b */
+    public function lte($a, $b);
+    /** returns true if $a > $b */
+    public function gt($a, $b);
+    /** returns true if $a >= $b */
+    public function gte($a, $b);
+    /** returns true if $a == $b */
+    public function eq($a, $b);
+    /** returns true if $a != $b */
+    public function neq($a, $b);
 
     abstract public function add($a, $b);
     abstract public function sub($a, $b);
