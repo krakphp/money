@@ -29,5 +29,5 @@ function preciseCalc() {
 }
 
 function f($money) {
-    return round($money, 2);
+    return sprintf("%.2f", round($money, 2));
 }
