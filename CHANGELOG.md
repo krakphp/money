@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.2.2 - 2017-06-26
+
 ### Fixed
 
 - Money formatting issue with decimals on whole numbers #1
