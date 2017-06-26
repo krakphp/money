@@ -48,7 +48,7 @@ describe('Money', function() {
     });
     describe('#f', function() {
         it('formats money by rounding it to two decimal places', function() {
-            assert(money\f(12.015) === 12.02);
+            assert(money\f(12.015) === '12.02' && money\f('1') === '1.00');
         });
     });
     describeCalculator(new Money\BCMathCalculator(), 'BCMathCalculator');
