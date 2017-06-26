@@ -31,7 +31,7 @@ Returns a cached instance of the FloatCalculator. Use this calculator if you hav
 
 ### f($money)
 
-Format the money by rounding it to two decimal places.
+Format the money by rounding it to two decimal places and returning a properly formatted money string of `\d+\.\d{2}`
 
 ### interface Calculator
 
